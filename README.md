@@ -1,5 +1,5 @@
 # BrainHemorrhage
 by Katrina Wijaya and Karen Li
 
-## Purpose
+### Purpose
 Predicting brain hemorrhages from patient MRI scans
