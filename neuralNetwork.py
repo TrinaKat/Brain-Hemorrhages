@@ -5,20 +5,16 @@ Implementation of deep neural network to predict brain hemorrhaging for stroke p
 import numpy as np
 import tensorflow as tf
 
-# TODO: read in data (CSV file)
-filename_queue = tf.train.string_input_producer(["../trainingData/train_data_sm.csv"])
+# read in data (CSV file)
+filePath = "../trainingData/train_data_sm.csv"
 
-reader = tf.TextLineReader()
-# read a single line from the file
-key, value = reader.read(filename_queue)
-with tf.Session() as sess:
-	# start populating the filename queue
-	coord = tf.train.Coordinator()
-	threads = tf.train.start_queue_runners(coord=coord)
+# get all the column indices except the first four columns and the last column
+columns = []
+for i in range(4, 622):
+	columns.append(i)
 
-	# for i in range(40000):
-		# TODO: retrieve a single instance
-		
+# get a 40000 x 618 column array for all of the values (just 1000 x 618 for now)
+data = np.loadtxt(filePath, delimiter = ',', skiprows = 39000, usecols = tuple(columns))	
 
 # START INTERACTIVE SESSION
 
