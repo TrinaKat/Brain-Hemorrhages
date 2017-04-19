@@ -2,8 +2,12 @@
 Implementation of deep neural network to predict brain hemorrhaging for stroke patients
 """
 
+# IMPORT REQUIRED LIBRARIES
+
 import numpy as np
 import tensorflow as tf
+
+# OBTAIN DATA 
 
 # read in data (CSV file)
 filePath = "../trainingData/train_data_sm.csv"
