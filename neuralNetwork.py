@@ -9,8 +9,9 @@ import tensorflow as tf
 
 # OBTAIN DATA 
 
-# read in data (CSV file)
+# read in training data (CSV file)
 filePath = "../trainingData/train_data_sm.csv"
+numRowsToSkip = 39000
 
 # get all the column indices except the first four columns and the last column
 columns = []
@@ -18,7 +19,9 @@ for i in range(4, 622):
 	columns.append(i)
 
 # get a 40000 x 618 column array for all of the values (just 1000 x 618 for now)
-data = np.loadtxt(filePath, delimiter = ',', skiprows = 39000, usecols = tuple(columns))	
+trainingData = np.loadtxt(filePath, delimiter = ',', skiprows = numRowsToSkip, usecols = tuple(columns))	
+# get a 40000 x 1 column array for all of the results (boolean) (just 1000 x 1 for now)
+results = np.loadtxt(filePath, delimiter = ',', skiprows = numRowsToSkip, usecols = 622)
 
 # START INTERACTIVE SESSION
 
@@ -51,6 +54,11 @@ cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_
 # use gradient descent with a learning rate of 0.5
 # running the "train_step" operation will run one step of gradient descent
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
-# run the training step 1000 times
-# for _ in range(1000):
-	# TODO
+# run the training step 800 times
+for i in range(0, 800):
+	sess.run(train_step, feed_dict={X: np.reshape(trainingData[i], (1, 618)), y_: np.reshape(results[i], (1, 1))})
+
+# run testing for the last 200 examples 
+# for i in range(800, 1000):
+
+
