@@ -43,22 +43,31 @@ sess.run(tf.global_variables_initializer())
 
 # IMPLEMENT MODEL
 
+# get the predicted output from the model
 # currently, this is just a softmax regression model with a single linear layer
 y = tf.matmul(X, W)
 
 # use the cross entropy as the error for the prediction
 cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y))
 
-# TRAIN MODEL
+# TRAIN AND EVALUATE MODEL
 
 # use gradient descent with a learning rate of 0.5
 # running the "train_step" operation will run one step of gradient descent
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
-# run the training step 800 times
+# run the training step on training set (800 samples)
 for i in range(0, 800):
 	sess.run(train_step, feed_dict={X: np.reshape(trainingData[i], (1, 618)), y_: np.reshape(results[i], (1, 1))})
+	
+# run the evaluation on the test set (200 samples)
+# numCorrect = 0
+correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+for i in range(800, 1000):
+	result = sess.run(accuracy, feed_dict={X: np.reshape(trainingData[i], (1, 618)), y_: np.reshape(results[i], (1, 1))})
+	if (i % 20 == 0):
+		print result
+# 	if (y[i] == y_):
+# 		numCorrect += 1
 
-# run testing for the last 200 examples 
-# for i in range(800, 1000):
-
-
+# print "Accuracy of predictions on test set: {}%".format(numCorrect/200)
