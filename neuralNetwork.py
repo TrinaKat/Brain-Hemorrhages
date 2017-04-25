@@ -60,14 +60,16 @@ for i in range(0, 800):
 	sess.run(train_step, feed_dict={X: np.reshape(trainingData[i], (1, 618)), y_: np.reshape(results[i], (1, 1))})
 	
 # run the evaluation on the test set (200 samples)
-# numCorrect = 0
-correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
+numCorrect = 0
+# return whether or not y (prediction) equal y_  (actual result) (element-wise)
+correct_prediction = tf.equal(y, y_)
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 for i in range(800, 1000):
 	result = sess.run(accuracy, feed_dict={X: np.reshape(trainingData[i], (1, 618)), y_: np.reshape(results[i], (1, 1))})
-	if (i % 20 == 0):
-		print result
-# 	if (y[i] == y_):
-# 		numCorrect += 1
+	# model predicted hemorrhage correctly
+	# TODO: check if I am testing this correctly
+	if (accuracy is not None):
+		numCorrect += 1
+	# print(accuracy.eval(feed_dict={X: np.reshape(trainingData[i], (1, 618)), y_: np.reshape(results[i], (1, 1))}))
 
-# print "Accuracy of predictions on test set: {}%".format(numCorrect/200)
+print "Accuracy of predictions on test set: {}%".format(numCorrect/200 * 100)
