@@ -1,5 +1,5 @@
 """ 
-Implementation of binary logistic regression to predict brain hemorrhaging for stroke patients
+Implementation of multilayer perceptron  (deep neural network) to predict brain hemorrhaging for stroke patients
 """
 
 # IMPORT REQUIRED LIBRARIES
@@ -9,10 +9,15 @@ import tensorflow as tf
 
 # SET PARAMETERS
 
+# parameters for training/testing
 learningRate = 0.5  # for gradient descent
 numTrainingExamples = 30000
 numTestingExamples = 20000
 totalNumExamples = numTrainingExamples + numTestingExamples
+
+# parameters for the neural network
+n_hidden_1 = 256 # number of features in 1st hidden layer
+n_hidden_2 = 256 # number of features in 2nd hidden layer
 
 # OBTAIN DATA 
 
@@ -43,32 +48,49 @@ X = tf.placeholder(tf.float32, shape=[None, 618])
 # Boolean to indicate whether or brain actually hemorrhaged
 y_ = tf.placeholder(tf.float32, shape=[None, 1])
 
-# SET UP WEIGHTS/PARAMETERS FOR MODEL
-
-# initialize weights and bias all to 0
-W = tf.Variable(tf.zeros([618, 1]))
-b = tf.Variable(tf.zeros([1, 1]))
-sess.run(tf.global_variables_initializer())
-
 # IMPLEMENT MODEL
 
-# get the predicted output from the model
-# currently, this is just a logistic regression model with a single linear layer
-y = tf.matmul(X, W) + b
+# define model
+def multilayer_perceptron(X, weights, biases):
+    # hidden layer with RELU activation
+    layer_1 = tf.add(tf.matmul(X, weights['h1']), biases['b1'])
+    layer_1 = tf.nn.relu(layer_1)
+    # hidden layer with RELU activation
+    layer_2 = tf.add(tf.matmul(layer_1, weights['h2']), biases['b2'])
+    layer_2 = tf.nn.relu(layer_2)
+    # output layer with linear activation
+    out_layer = tf.matmul(layer_2, weights['out']) + biases['out']
+    return out_layer
 
-# use the cross entropy as the error for the prediction (sigmoid since binary logistic regression)
-cross_entropy = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(targets=y_, logits=y))
+# Store layers weight & bias
+weights = {
+    'h1': tf.Variable(tf.random_normal([618, n_hidden_1])),
+    'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2])),
+    'out': tf.Variable(tf.random_normal([n_hidden_2, 1]))
+}
+biases = {
+    'b1': tf.Variable(tf.random_normal([n_hidden_1])),
+    'b2': tf.Variable(tf.random_normal([n_hidden_2])),
+    'out': tf.Variable(tf.random_normal([1]))
+}
+
+# instantiate model
+prediction = multilayer_perceptron(X, weights, biases)
+
+# define cost function and optimizer for each training step
+cost = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=prediction, targets=y_))
+train_step = tf.train.GradientDescentOptimizer(learningRate).minimize(cost)
 
 # used for testing the data
-prediction = tf.sigmoid(y)  # float between 0 and 1 that represents probability of hemorrhage 
-predicted_class = tf.greater(prediction, 0.5)
+predicted_class = tf.greater(tf.sigmoid(prediction), 0.5)
 correct_prediction = tf.equal(predicted_class, tf.equal(y_, 1.0))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))  # variable for whether prediction is correct (0 or 1)
 
+# initialize the global variables
+sess.run(tf.global_variables_initializer())
+
 # TRAIN MODEL
 
-# use gradient descent with specified learning rate
-train_step = tf.train.GradientDescentOptimizer(learningRate).minimize(cross_entropy)
 # run the training step on training set 
 numCorrectTrainingExamples = 0
 for i in range(0, numTrainingExamples):
@@ -91,5 +113,5 @@ for i in range(numTrainingExamples, totalNumExamples):
 	if i % 20 == 0 and i != numTrainingExamples:
 		print("Testing step %d: testing accuracy %f%%"%(i, (numCorrectTestExamples/(i - numTrainingExamples)) * 100))
 
-# usually around 96% for training set and 77% for test set
+# usually around ?% for training set and ?% for test set
 print("Final results: training accuracy of %f%%, testing accuracy of %f%%"%((numCorrectTrainingExamples/numTrainingExamples) * 100, (numCorrectTestExamples/numTestingExamples) * 100))
