@@ -16,8 +16,8 @@ numTestingExamples = 20000
 totalNumExamples = numTrainingExamples + numTestingExamples
 
 # parameters for the neural network
-n_hidden_1 = 256 # number of features in 1st hidden layer
-n_hidden_2 = 256 # number of features in 2nd hidden layer
+n_hidden_1 = 64 # number of features in 1st hidden layer
+n_hidden_2 = 32 # number of features in 2nd hidden layer
 
 # OBTAIN DATA 
 
