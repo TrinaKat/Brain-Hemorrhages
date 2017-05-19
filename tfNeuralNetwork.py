@@ -1,5 +1,5 @@
 """ 
-Implementation of multilayer perceptron  (deep neural network) to predict brain hemorrhaging for stroke patients
+Implementation of multilayer perceptron (deep neural network) to predict brain hemorrhaging for stroke patients
 """
 
 # IMPORT REQUIRED LIBRARIES
@@ -113,5 +113,5 @@ for i in range(numTrainingExamples, totalNumExamples):
 	if i % 20 == 0 and i != numTrainingExamples:
 		print("Testing step %d: testing accuracy %f%%"%(i, (numCorrectTestExamples/(i - numTrainingExamples)) * 100))
 
-# usually around ?% for training set and ?% for test set
+# usually around 70% for training set and 50% for test set
 print("Final results: training accuracy of %f%%, testing accuracy of %f%%"%((numCorrectTrainingExamples/numTrainingExamples) * 100, (numCorrectTestExamples/numTestingExamples) * 100))
