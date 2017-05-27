@@ -5,7 +5,7 @@ by Katrina Wijaya and Karen Li
 Predicting brain hemorrhages from patient MRI scans
 
 ## Background
-This is a term project for UCLA CS 188: Computational Methods for Medical Imaging taught by Professor Fabian Scalzo.
+This is a term project for UCLA CS 188: Computational Methods for Medical Imaging taught by Professor Fabien Scalzo.
 
 For more information about our project, check out our [website](https://predictingbrainhemorrhages.wordpress.com/)!
 
