@@ -31,4 +31,6 @@ The TensorFlow Python API supports Python 2.7 and Python 3.3+.
 
 In terminal in the BrainHemorrhage repository, enter the following command-line command to run the desired script:
 
-```$ python scriptToRun.py```
+```
+$ python scriptToRun.py
+```
