@@ -7,7 +7,7 @@ Predicting brain hemorrhages from patient MRI scans
 ### Background
 This is a term project for UCLA CS 188: Computational Methods for Medical Imaging taught by Professor Fabian Scalzo.
 
-For more information about our project, check out our website[https://predictingbrainhemorrhages.wordpress.com/]!
+For more information about our project, check out our [website][https://predictingbrainhemorrhages.wordpress.com/]!
 
 ### Data
 Data for this project comes from 263 acute ischemic stroke patients treated in four different medical centers. It is in the form of a pre-processed CSV file that has been manually processed by Professor Scalzo's team. The data will not be released as it contains privileged information of patients.
