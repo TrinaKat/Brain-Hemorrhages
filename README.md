@@ -22,10 +22,10 @@ Scikit-Learn TODO.
 ### Usage
 Download or clone the BrainHemorrhage repository. You would need access to the data, but the data is not public so either include your own data and set the file path in the scripts or contact Professor Scalzo for more information.
 
-The scripts include the following libraries:
-numpy
-tensorflow
-TODO
+The scripts include the following libraries:  
+numpy  
+tensorflow  
+TODO  
 
 The TensorFlow Python API supports Python 2.7 and Python 3.3+.
 
