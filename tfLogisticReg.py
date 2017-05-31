@@ -6,6 +6,7 @@ Implementation of binary logistic regression to predict brain hemorrhaging for s
 
 import numpy as np
 import tensorflow as tf
+from sklearn import preprocessing
 
 # SET PARAMETERS
 
@@ -28,6 +29,9 @@ for i in range(4, 622):
 
 # get a 50000 x 618 column array for all of the values (just 1000 x 618 for now)
 trainingData = np.loadtxt(filePath, delimiter = ',', skiprows = numRowsToSkip, usecols = tuple(columns))
+# standard normally distributed data: Gaussian with zero mean and unit variance
+# trainingData = preprocessing.scale(trainingData)
+
 # get a 50000 x 1 column array for all of the results (boolean) (just 1000 x 1 for now)
 results = np.loadtxt(filePath, delimiter = ',', skiprows = numRowsToSkip, usecols = 622)
 
@@ -57,7 +61,7 @@ sess.run(tf.global_variables_initializer())
 y = tf.matmul(X, W) + b
 
 # use the cross entropy as the error for the prediction (sigmoid since binary logistic regression)
-cross_entropy = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=y_, logits=y))
+cross_entropy = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(targets=y_, logits=y))
 
 # used for testing the data
 prediction = tf.sigmoid(y)  # float between 0 and 1 that represents probability of hemorrhage
@@ -91,5 +95,6 @@ for i in range(numTrainingExamples, totalNumExamples):
 	if i % 1000 == 0 and i != numTrainingExamples:
 		print("Testing step %d: testing accuracy %f%%"%(i, (numCorrectTestExamples/(i - numTrainingExamples)) * 100))
 
-# usually around 96% for training set and 80% for test set
+# usually around 96% for training set and 80% for test set (no feature scaling)
+# usually around 93% for training set and 73% for test set (with feature scaling)
 print("Final results: training accuracy of %f%%, testing accuracy of %f%%"%((numCorrectTrainingExamples/numTrainingExamples) * 100, (numCorrectTestExamples/numTestingExamples) * 100))
