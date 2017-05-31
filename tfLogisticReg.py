@@ -77,7 +77,6 @@ for i in range(0, numTrainingExamples):
 	# check to see how accurate the model is so far
 	train_accuracy = accuracy.eval(feed_dict={X: np.reshape(trainingData[i], (1, 618)), y_: np.reshape(results[i], (1, 1))})
 	numCorrectTrainingExamples += train_accuracy
-	# if i % 20 == 0 and i != 0:
 	if i % 1000 == 0 and i != 0:
 		print("Training step %d: training accuracy %f%%"%(i, (numCorrectTrainingExamples/i) * 100))
 
@@ -89,7 +88,6 @@ for i in range(numTrainingExamples, totalNumExamples):
 	test_accuracy = accuracy.eval(feed_dict={X: np.reshape(trainingData[i], (1, 618)), y_: np.reshape(results[i], (1, 1))})
 	numCorrectTestExamples += test_accuracy
 	# check the test result accuracy
-	# if i % 20 == 0 and i != numTrainingExamples:
 	if i % 1000 == 0 and i != numTrainingExamples:
 		print("Testing step %d: testing accuracy %f%%"%(i, (numCorrectTestExamples/(i - numTrainingExamples)) * 100))
 

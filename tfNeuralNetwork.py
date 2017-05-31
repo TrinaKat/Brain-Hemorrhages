@@ -32,13 +32,8 @@ for i in range(4, 622):
 	columns.append(i)
 
 # get a 50000 x 618 column array for all of the values (just 1000 x 618 for now)
-## https://stackoverflow.com/questions/1796597/import-an-array-in-python?answertab=active#tab-top
-## delimiter = column separator
-## skiprows = skip numRowsfrom top of file, numRows depends on how many examples we use for training + testing
-## usecols selects columns to look at rather than all, tuple of 4->622
 trainingData = np.loadtxt(filePath, delimiter = ',', skiprows = numRowsToSkip, usecols = tuple(columns))
 # get a 50000 x 1 column array for all of the results (boolean) (just 1000 x 1 for now)
-## contains results aka whether or not it hemorrhaged for each row/vector
 results = np.loadtxt(filePath, delimiter = ',', skiprows = numRowsToSkip, usecols = 622)
 
 # START INTERACTIVE SESSION
@@ -104,7 +99,6 @@ for i in range(0, numTrainingExamples):
 	# check to see how accurate the model is so far
 	train_accuracy = accuracy.eval(feed_dict={X: np.reshape(trainingData[i], (1, 618)), y_: np.reshape(results[i], (1, 1))})
 	numCorrectTrainingExamples += train_accuracy
-    # if i % 20 == 0 and i != 0:
 	if i % 1000 == 0 and i != 0:
 	   print("Training step %d: training accuracy %f%%"%(i, (numCorrectTrainingExamples/i) * 100))
 
@@ -116,7 +110,6 @@ for i in range(numTrainingExamples, totalNumExamples):
 	test_accuracy = accuracy.eval(feed_dict={X: np.reshape(trainingData[i], (1, 618)), y_: np.reshape(results[i], (1, 1))})
 	numCorrectTestExamples += test_accuracy
 	# check the test result accuracy
-    # if i % 20 == 0 and i != numTrainingExamples:
 	if i % 1000 == 0 and i != numTrainingExamples:
 		print("Testing step %d: testing accuracy %f%%"%(i, (numCorrectTestExamples/(i - numTrainingExamples)) * 100))
 
