@@ -14,8 +14,8 @@ from sklearn import linear_model
 
 # SET PARAMETERS
 
-numTrainingExamples = 3000#0
-numTestingExamples = 2000#0
+numTrainingExamples = 30000
+numTestingExamples = 20000
 totalNumExamples = numTrainingExamples + numTestingExamples
 
 # OBTAIN DATA
@@ -46,11 +46,11 @@ X_train, X_test, y_train, y_test = train_test_split(trainingData_scaled, results
 
 # Use varying losses for linear classifiers with SGD training
 # Accuracy
-# hinge loss: 
-# logistic regression: 
-# linear loss with perceptron: 
-# smooth loss with outlier tolerance:
-# squared hinge loss w/ quadtractic penalization:
+# hinge loss: 81%
+# logistic regression: 80%
+# linear loss with perceptron: 75%
+# smooth loss with outlier tolerance: 79%
+# squared hinge loss w/ quadtractic penalization: 80%
 
 
 for l in ['hinge', 'log', 'perceptron', 'modified_huber', 'squared_hinge']:
@@ -63,13 +63,5 @@ for l in ['hinge', 'log', 'perceptron', 'modified_huber', 'squared_hinge']:
 	testAccuracy = clf.score(X_test, y_test)
 
 	print("Final results for '%s': testing accuracy of %f%%"%(clf, testAccuracy * 100))
-
-
-# run the classifier
-# clf = linear_model.SGDClassifier() # default hinge loss = linear SVM #63
-# clf = linear_model.SGDClassifier(loss='log') # logistic regression is a probalistic classifier #78.5
-# clf = linear_model.SGDClassifier(loss='perceptron') #linear loss used by perceptron algorithm	#54
-# clf = linear_model.SGDClassifier(loss='modified_huber') #smooth loss with outlier tolerance #81
-# clf = linear_model.SGDClassifier(loss='squared_hinge') # like hinge which is linear SVM but quadractically penalized #74.5
 
 
