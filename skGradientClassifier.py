@@ -15,8 +15,8 @@ from sklearn.ensemble import GradientBoostingClassifier
 
 # SET PARAMETERS
 
-numTrainingExamples = 3000
-numTestingExamples = 2000
+numTrainingExamples = 30000
+numTestingExamples = 20000
 totalNumExamples = numTrainingExamples + numTestingExamples
 
 # OBTAIN DATA
