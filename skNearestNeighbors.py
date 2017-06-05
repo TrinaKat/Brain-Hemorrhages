@@ -1,7 +1,7 @@
 # #!/usr/bin/python
 
 """
-Implementation of nearest neighbors algorithm to predict brain hemorrhaging for stroke patients
+Implementation of nearest neighbors algorithms to predict brain hemorrhaging for stroke patients
 """
 
 # IMPORT REQUIRED LIBRARIES
@@ -10,16 +10,15 @@ import numpy as np
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 
+from sklearn.neighbors import KNeighborsRegressor
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neighbors import RadiusNeighborsClassifier
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.neighbors import RadiusNeighborsRegressor
 
 
 # SET PARAMETERS
 
-numTrainingExamples = 300#00
-numTestingExamples = 200#00
+numTrainingExamples = 30000
+numTestingExamples = 20000
 totalNumExamples = numTrainingExamples + numTestingExamples
 
 # OBTAIN DATA
@@ -48,14 +47,39 @@ results = np.loadtxt(filePath, delimiter = ',', skiprows = numRowsToSkip, usecol
 # randomly split the data into training set and test set (40% testing)
 X_train, X_test, y_train, y_test = train_test_split(trainingData_scaled, results, test_size=0.4, random_state=0)
 
+### K Neighbors Regressor: 80% ###
 
-for n in range(2,10):
-	neigh = KNeighborsClassifier(n_neighbors=n)
-	# Fit the model according to the given training data
-	neigh.fit(X_train, y_train)
+model = KNeighborsRegressor(n_neighbors=5)
+# Fit the model according to the given training data
+model.fit(X_train, y_train)
 
-	# evaluate the trained model on the test set
-	# Returns the mean accuracy on the given test data and labels
-	testAccuracy = neigh.score(X_test, y_test)
+# evaluate the trained model on the test set
+# Returns the mean accuracy on the given test data and labels
+testAccuracy = model.score(X_test, y_test)
 
-	print("Final results for '%s': testing accuracy of %f%%"%(neigh, testAccuracy * 100))
+print("Final results for '%s': testing accuracy of %f%%"%(model, testAccuracy * 100))
+
+### K Neighbors Classifier: 93% ###
+
+model = KNeighborsClassifier(n_neighbors=5, weights='distance')
+# Fit the model according to the given training data
+model.fit(X_train, y_train)
+
+# evaluate the trained model on the test set
+# Returns the mean accuracy on the given test data and labels
+testAccuracy = model.score(X_test, y_test)
+
+print("Final results for '%s': testing accuracy of %f%%"%(model, testAccuracy * 100))
+
+### Radius Neighbors Classifier: 85.5% ###
+
+model = RadiusNeighborsClassifier(radius=8, outlier_label=0, weights='uniform')
+# Fit the model according to the given training data
+model.fit(X_train, y_train)
+
+# evaluate the trained model on the test set
+# Returns the mean accuracy on the given test data and labels
+testAccuracy = model.score(X_test, y_test)
+
+print("Final results for '%s': testing accuracy of %f%%"%(model, testAccuracy * 100))
+
