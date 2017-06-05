@@ -15,8 +15,8 @@ from sklearn.ensemble import GradientBoostingClassifier
 
 # SET PARAMETERS
 
-numTrainingExamples = 30000
-numTestingExamples = 20000
+numTrainingExamples = 3000
+numTestingExamples = 2000
 totalNumExamples = numTrainingExamples + numTestingExamples
 
 # OBTAIN DATA
@@ -46,9 +46,15 @@ results = np.loadtxt(filePath, delimiter = ',', skiprows = numRowsToSkip, usecol
 X_train, X_test, y_train, y_test = train_test_split(trainingData_scaled, results, test_size=0.4, random_state=0)
 
 
-model = GradientBoostingClassifier()
+# model = GradientBoostingClassifier() #90.5
+# model = GradientBoostingClassifier(loss='exponential') #90.5
+# model = GradientBoostingClassifier(n_estimators=200) #92
+# model = GradientBoostingClassifier(max_depth=4) #92
+# model = GradientBoostingClassifier(n_estimators=200, max_depth=6, loss='exponential') #92.5
+# model = GradientBoostingClassifier(n_estimators=400, max_depth=6, loss='exponential') #93.5
 
-
+# Accuracy: 93.5%
+model = GradientBoostingClassifier(n_estimators=300, max_depth=6, loss='exponential')
 # Fit the model according to the given training data
 model.fit(X_train, y_train)
 
@@ -57,4 +63,3 @@ model.fit(X_train, y_train)
 testAccuracy = model.score(X_test, y_test)
 
 print("Final results for '%s': testing accuracy of %f%%"%(model, testAccuracy * 100))
-

@@ -46,7 +46,8 @@ results = np.loadtxt(filePath, delimiter = ',', skiprows = numRowsToSkip, usecol
 X_train, X_test, y_train, y_test = train_test_split(trainingData_scaled, results, test_size=0.4, random_state=0)
 
 
-model = BaggingClassifier()
+# model = BaggingClassifier()
+model = BaggingClassifier(n_estimators=20)
 
 
 # Fit the model according to the given training data
