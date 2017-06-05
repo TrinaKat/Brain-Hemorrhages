@@ -1,7 +1,7 @@
 # #!/usr/bin/python
 
 """
-Implementation of nearest neighbors algorithm to predict brain hemorrhaging for stroke patients
+Implementation of bagging classifier algorithm to predict brain hemorrhaging for stroke patients
 """
 
 # IMPORT REQUIRED LIBRARIES
