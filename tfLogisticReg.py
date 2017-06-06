@@ -29,8 +29,6 @@ for i in range(4, 622):
 
 # get a 50000 x 618 column array for all of the values (just 1000 x 618 for now)
 trainingData = np.loadtxt(filePath, delimiter = ',', skiprows = numRowsToSkip, usecols = tuple(columns))
-# standard normally distributed data: Gaussian with zero mean and unit variance
-# trainingData = preprocessing.scale(trainingData)
 
 # get a 50000 x 1 column array for all of the results (boolean) (just 1000 x 1 for now)
 results = np.loadtxt(filePath, delimiter = ',', skiprows = numRowsToSkip, usecols = 622)

@@ -32,7 +32,6 @@ for i in range(4, 622):
 
 # get a 50000 x 618 column array for all of the values (just 1000 x 618 for now)
 trainingData = np.loadtxt(filePath, delimiter = ',', skiprows = numRowsToSkip, usecols = tuple(columns))
-# since SVMs aren't scale invariant, need to scale data
 # standard normally distributed data: Gaussian with zero mean and unit variance
 trainingData_scaled = preprocessing.scale(trainingData)
 
